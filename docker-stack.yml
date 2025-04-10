@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  proxy:
+    image: busapp-proxy
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+    ports:
+      - "80:80"
+    networks:
+      - red-overlay
+    depends_on:
+      - user-auth
+      - bus-reservation
+      - payment-gateway
+      - route-scheduler
+
+  user-auth:
+    image: busapp-user-auth
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - "node.hostname == wkr"
+    networks:
+      - red-overlay
+
+  bus-reservation:
+    image: busapp-bus-reservation
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - "node.hostname == wkr"
+    networks:
+      - red-overlay
+
+  payment-gateway:
+    image: busapp-payment-gateway
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - "node.hostname == wkr"
+    networks:
+      - red-overlay
+
+  route-scheduler:
+    image: busapp-route-scheduler
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - "node.hostname == wkr"
+    networks:
+      - red-overlay
+
+  prometheus:
+    image: busapp-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - red-overlay
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      # No constraints → puede ir en cualquier nodo
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+    networks:
+      - red-overlay
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      # También sin constraints
+
+networks:
+  red-overlay:
+    driver: overlay
+
+volumes:
+  prometheus_data:

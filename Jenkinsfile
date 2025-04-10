@@ -40,7 +40,7 @@ pipeline {
             echo "Ejecución del pipeline finalizada."
             // Opcional: Podrías añadir un 'docker-compose down' aquí si quieres limpiar siempre después de cada ejecución,
             // aunque para un despliegue continuo normalmente querrás que la app siga corriendo.
-            // sh 'docker-compose down --remove-orphans || true'
+             sh 'docker-compose down --remove-orphans || true'
         }
         success {
             echo "Pipeline ejecutado con éxito."

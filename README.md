@@ -1,4 +1,4 @@
-# Bus Ticket App
+# Bus Ticket App.
 
 ## Estructura de Ficheros
 bus-ticket-app/

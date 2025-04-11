@@ -13,7 +13,7 @@ pipeline {
 
                 echo "Clonando el repositorio https://github.com/tecducatio/end-busapp.git ..."
                 // Clona el repositorio público. Asume la rama 'main', cámbiala si es otra (ej. 'master')
-                git url: 'https://github.com/tecducatio/end-busapp.git', branch: 'main'
+                git url: 'https://github.com/ricardoinstructor/end-busapp.git', branch: 'main'
             }
         }
 
@@ -40,7 +40,7 @@ pipeline {
             echo "Ejecución del pipeline finalizada."
             // Opcional: Podrías añadir un 'docker-compose down' aquí si quieres limpiar siempre después de cada ejecución,
             // aunque para un despliegue continuo normalmente querrás que la app siga corriendo.
-             sh 'docker-compose down --remove-orphans || true'
+            // sh 'docker-compose down --remove-orphans || true'
         }
         success {
             echo "Pipeline ejecutado con éxito."

@@ -13,7 +13,7 @@ pipeline {
 
                 echo "Clonando el repositorio https://github.com/tecducatio/end-busapp.git ..."
                 // Clona el repositorio público. Asume la rama 'main', cámbiala si es otra (ej. 'master')
-                git url: 'https://github.com/ricardoinstructor/end-busapp.git', branch: 'main'
+                git url: 'https://github.com/furichies/end-busapp.git', branch: 'main'
             }
         }
 
